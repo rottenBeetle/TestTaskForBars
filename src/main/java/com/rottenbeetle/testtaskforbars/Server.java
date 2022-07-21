@@ -90,6 +90,7 @@ public class Server implements Runnable {
         String json = null;
         try {
             Statement statement = worker.getConnection().createStatement();
+
             ResultSet resultSet = statement.executeQuery(query);
             while (resultSet.next()){
                 Contract contract = new Contract();

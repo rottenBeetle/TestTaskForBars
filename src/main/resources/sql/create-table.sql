@@ -1,6 +1,5 @@
 DROP TABLE contracts;
-
-CREATE TABLE contracts
+CREATE TABLE IF NOT EXISTS contracts
 (
     id          BIGSERIAL   NOT NULL PRIMARY KEY,
     number      INTEGER NOT NULL,

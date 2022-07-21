@@ -127,7 +127,7 @@ public class HelloController {
 
                 //JSON в список объектов
                 contracts = Arrays.asList(mapper.readValue(informationString.toString(), Contract[].class));
-                conn.disconnect();
+
             }
 
 

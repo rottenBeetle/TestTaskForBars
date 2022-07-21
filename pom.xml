@@ -5,13 +5,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.rottenbeetle</groupId>
-    <artifactId>NumericalRebusForm</artifactId>
+    <artifactId>TestTaskForBars</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <name>NumericalRebusForm</name>
+    <name>TestTaskForBars</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <junit.version>5.7.1</junit.version>
     </properties>
 
     <dependencies>
@@ -19,8 +18,10 @@
         <dependency>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-shade-plugin</artifactId>
-            <version>3.2.1</version>
+            <version>3.2.4</version>
         </dependency>
+
+
 
         <dependency>
             <groupId>org.openjfx</groupId>
@@ -52,18 +53,6 @@
             <groupId>org.kordamp.bootstrapfx</groupId>
             <artifactId>bootstrapfx-core</artifactId>
             <version>0.4.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
         </dependency>
         <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
         <dependency>
@@ -101,7 +90,7 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>
-                                com.rottenbeetle.numericalrebusform/com.rottenbeetle.testtaskforbars.HelloApplication
+                                com.rottenbeetle.testtaskforbars.Main
                             </mainClass>
                         </configuration>
                     </execution>
