@@ -13,7 +13,7 @@ public class DBWorker {
 
     private Connection connection;
 
-    public DBWorker() {
+    public DBWorker() throws SQLException {
         Properties props = new Properties();
         try(InputStream in = Files.newInputStream(Paths.get("src/database.properties"))){
             props.load(in);
@@ -22,7 +22,7 @@ public class DBWorker {
             String password = props.getProperty("PASSWORD");
 
             connection = DriverManager.getConnection(url, username, password);
-        } catch (IOException | SQLException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

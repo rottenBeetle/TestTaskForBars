@@ -10,6 +10,7 @@ import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.AsynchronousServerSocketChannel;
 import java.nio.channels.AsynchronousSocketChannel;
+import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -73,26 +74,31 @@ public class Server implements Runnable {
             }
 
             String body = getJsonFromDB();
-            String page = String.format(HEADERS, body.length()) + body;
-            ByteBuffer resp = ByteBuffer.wrap(page.getBytes());
-            clientChannel.write(resp);
+
+            if (body != null) {
+                String page = String.format(HEADERS, body.length()) + body;
+                ByteBuffer resp = ByteBuffer.wrap(page.getBytes());
+                clientChannel.write(resp);
+            }
 
             clientChannel.close();
         }
     }
 
-    public String getJsonFromDB(){
-        DBWorker worker = new DBWorker();
+    public String getJsonFromDB() throws IOException {
+
         String query = "select * from contracts";
         List<Contract> contracts = new ArrayList<>();
         ObjectMapper mapper = new ObjectMapper();
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
         String json = null;
         try {
+            DBWorker worker = new DBWorker();
+            createAndFillingTable(worker);
             Statement statement = worker.getConnection().createStatement();
 
             ResultSet resultSet = statement.executeQuery(query);
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 Contract contract = new Contract();
                 contract.setId(resultSet.getInt(1));
                 contract.setNumber(resultSet.getInt(2));
@@ -104,9 +110,34 @@ public class Server implements Runnable {
             json = mapper.writeValueAsString(contracts);
 
         } catch (SQLException | JsonProcessingException e) {
-            e.printStackTrace();
+            server.close();
+            System.out.println("Не правильные параметры БД!");
         }
         return json;
+    }
+
+    private void createAndFillingTable(DBWorker worker) {
+        try {
+            DatabaseMetaData md = worker.getConnection().getMetaData();
+            ResultSet rs = md.getTables(null, null, "contracts", null);
+            if (!rs.next()) {
+                Statement statement = worker.getConnection().createStatement();
+                statement.execute("CREATE TABLE contracts\n" +
+                        "(\n" +
+                        "    id          BIGSERIAL NOT NULL PRIMARY KEY,\n" +
+                        "    number      INTEGER   NOT NULL,\n" +
+                        "    date        DATE      NOT NULL,\n" +
+                        "    last_update DATE      NOT NULL\n" +
+                        ");" +
+                        "insert into contracts (id, number, date , last_update) values (1, 10, '2000-01-08','2022-07-21');\n" +
+                        "insert into contracts (id, number, date , last_update) values (2, 20, '2005-03-15','2022-08-27');\n" +
+                        "insert into contracts (id, number, date , last_update) values (3, 30, '2010-06-19','2021-04-11');\n" +
+                        "insert into contracts (id, number, date , last_update) values (4, 40, '2015-08-25','2022-06-13');\n" +
+                        "insert into contracts (id, number, date , last_update) values (5, 50, '2013-12-25','2022-03-10');");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 }

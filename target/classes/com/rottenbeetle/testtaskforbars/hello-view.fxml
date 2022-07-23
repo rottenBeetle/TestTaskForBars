@@ -27,8 +27,8 @@
                                 <Button fx:id="refreshButton" layoutX="251.0" layoutY="519.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="73.0" text="Обновить" />
                                 <TableView fx:id="listContracts" layoutX="14.0" layoutY="96.0" prefHeight="402.0" prefWidth="533.0">
                                     <columns>
-                                        <TableColumn fx:id="numberContract" prefWidth="123.0" text="Номер договра" />
-                                        <TableColumn fx:id="date" prefWidth="107.0" text="Дата" />
+                                        <TableColumn fx:id="numberContract" prefWidth="123.0" text="Номер договора" />
+                                        <TableColumn fx:id="date" prefWidth="107.0" text="Дата создания" />
                                         <TableColumn fx:id="lastUpdate" prefWidth="150.0" text="Дата обновления" />
                                         <TableColumn fx:id="relevance" prefWidth="150.0" text="Актуальность" />
                                     </columns>
